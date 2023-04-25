@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import requests
+from ftplib import FTP
 
 load_dotenv()
 
@@ -12,6 +13,13 @@ headers = {
    "Accept": "application/json",
    "body-format": "atlas_doc_format"
 }
+
+def get_files():
+    ftp = FTP('server-dev.astralinux.ru')
+    ftp.login()
+    ftp.cwd('maintainers/frozen/alse-X.7/1.7/RC/1.7.4.7') 
+    ftp.retrlines('LIST')
+
 
 def parse_last_post(id):
    url = f'http://glazarev.atlassian.net/wiki/api/v2/blogposts/{id}?body-format=storage'
@@ -26,7 +34,7 @@ def parse_last_post(id):
 
 
 def main():
-    print(parse_last_post())
+    print(get_files())
 
 
 if __name__ == "__main__":
