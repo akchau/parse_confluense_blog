@@ -14,7 +14,7 @@ headers = {
 }
 
 def parse_last_post(id):
-   url = f'http://glazarev.atlassian.net/wiki/api/v2/blogposts/{id}?expand=body,version/'
+   url = f'http://glazarev.atlassian.net/wiki/api/v2/blogposts/{id}?body-format=storage/'
    response = requests.request(
       "GET",
       url,
