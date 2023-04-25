@@ -22,7 +22,7 @@ def parse_last_post():
       headers=headers,
       auth=auth,
    )
-   data = response.json().get('title')
+   data = response # .json().get('title')
    return data
 
 
