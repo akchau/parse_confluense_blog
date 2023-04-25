@@ -7,6 +7,5 @@ from .parsing import parse_last_post
 
 @api_view(['POST'])
 def add_new_post(request):
-    post = parse_last_post()
-    pprint(request.data.get('blog').get('id'))
-    return Response(post)
+    post = parse_last_post(request.data.get('blog').get('id'))
+    return pprint(post)
