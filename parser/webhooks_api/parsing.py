@@ -14,8 +14,9 @@ headers = {
    "body-format": "atlas_doc_format"
 }
 
-def get_files():
-    ftp = FTP('server-dev.astralinux.ru')
+def get_files(links):
+    domain = 'server-dev.astralinux.ru'
+    ftp = FTP(domain)
     ftp.login()
     ftp.cwd('maintainers/frozen/alse-X.7/1.7/RC/1.7.4.7') 
     ftp.retrlines('LIST')
@@ -29,7 +30,7 @@ def parse_last_post(id):
       headers=headers,
       auth=auth,
    )
-   data = response.json() # .get('title')
+   data = response.json().get('body').get('storage').get('value') # .get('title')
    return data
 
 
