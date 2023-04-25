@@ -26,14 +26,13 @@ class BodyParser(HTMLParser):
 def get_files(link):
     domain = 'server-dev.astralinux.ru'
     ftp_dir = link.split(f'ftp://{domain}')[1][1:]
-    print(ftp_dir)
     ftp = FTP(domain)
     ftp.login()
     ftp.cwd(ftp_dir) 
     ftp.retrlines('LIST')
 
 
-def parse_last_post(id):
+def parse_last_post(id=786563):
     url = f'http://glazarev.atlassian.net/wiki/api/v2/blogposts/{id}?body-format=storage'
     response = requests.request(
         "GET",
@@ -44,7 +43,6 @@ def parse_last_post(id):
     data = response.json().get('body').get('storage').get('value') # .get('title')
     parser = BodyParser()
     parser.feed(data)
-    print(parser.links[3])
     return get_files(parser.links[3])
 
 
