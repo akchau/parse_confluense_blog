@@ -51,7 +51,7 @@ class Parser:
         return parser.elements
     
     def parse_ftp_link(self):
-        ftp_link = self.parse_body[3]
+        ftp_link = self.parse_body()[3]
         return ftp_link
 
 
