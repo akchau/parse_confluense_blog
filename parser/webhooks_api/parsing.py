@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 import requests
-from ftplib import FTP
 from html.parser import HTMLParser
 
 load_dotenv()
@@ -17,38 +16,57 @@ headers = {
 
 
 class BodyParser(HTMLParser):
-    links = []
+    elements = []
     def handle_data(self, data):
-        self.links.append(data)
-        return self.links
+        self.elements.append(data)
+        return self.elements
 
 
-def get_files(link):
-    domain = 'server-dev.astralinux.ru'
-    ftp_dir = link.split(f'ftp://{domain}')[1][1:]
-    ftp = FTP(domain)
-    ftp.login()
-    ftp.cwd(ftp_dir) 
-    ftp.retrlines('LIST')
+class Parser:
+    USERNAME: str = os.getenv('USERNAME')
+    PASSWORD: str = os.getenv('PASSWORD')
+    AUTH = requests.auth.HTTPBasicAuth(USERNAME, PASSWORD)
+    HEADERS: dict = {
+        "Accept": "application/json",
+        "body-format": "atlas_doc_format"
+    }
 
+    def __init__(self, id):
+        self.id = id
 
-def parse_last_post(id=786563):
-    url = f'http://glazarev.atlassian.net/wiki/api/v2/blogposts/{id}?body-format=storage'
-    response = requests.request(
-        "GET",
-        url,
-        headers=headers,
-        auth=auth,
-    )
-    data = response.json().get('body').get('storage').get('value') # .get('title')
-    parser = BodyParser()
-    parser.feed(data)
-    return get_files(parser.links[3])
+    def get_data_post(self):
+        url = f'http://glazarev.atlassian.net/wiki/api/v2/blogposts/{self.id}?body-format=storage'
+        response = requests.request(
+            "GET",
+            url,
+            headers=self.HEADERS,
+            auth=self.AUTH,
+        )
+        data = response.json().get('body').get('storage').get('value')
+        return data
+
+    def parse_body(self):
+        parser = BodyParser()
+        parser.feed(self.get_data_post())
+        return parser.elements
+    
+    def parse_ftp_link(self):
+        ftp_link = self.parse_body[3]
+        return ftp_link
 
 
 def main():
-    # print(get_files())
-    print(parse_last_post(786563))
+    print('Тестирование модуля парсинга постов:')
+    man_id = input('Укажите id поста вручную')
+    print('Все элементы поста')
+    print('------------------------------------')
+    parser = Parser(man_id).parse_body()
+    body = parser.parse_body()
+    print(body)
+    print('Ссылка на ftp сервер которая содержится в посте')
+    print('------------------------------------')
+    link = parser.parse_ftp_link()
+    print(link)
 
 
 if __name__ == "__main__":
