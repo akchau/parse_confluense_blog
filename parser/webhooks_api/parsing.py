@@ -42,8 +42,10 @@ class Parser:
             headers=self.HEADERS,
             auth=self.AUTH,
         )
-        data = response.json().get('body').get('storage').get('value')
-        return data
+        data = response.json()
+        print(data)
+        data_of_post = data.get('body').get('storage').get('value')
+        return data_of_post
 
     def parse_body(self):
         parser = BodyParser()
