@@ -23,11 +23,13 @@ class WebHook:
         self.data_new_post = data
     def check_id(self):
         try:
-            id = self.data.get('blog').get('id')
-            logger.info('id получен')
+            logger.info('Проводим проверку id')
+            id = self.data_new_post.get('blog').get('id')
+            logger.info(f'id получен {id}')
             return id
         except Exception as e:
             logger.error('Не удалосьт получить id поста')
             return None
     def get_id_new_post(self):
+        logger.info('Добавлен новый пост! Начало процесса сканирования')
         return self.check_id()
