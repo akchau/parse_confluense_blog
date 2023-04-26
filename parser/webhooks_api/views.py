@@ -10,7 +10,7 @@ from .ftp_client import Comnnection
 
 @api_view(['POST'])
 def add_new_post(request):
-    post_id = WebHook.get_id_new_post()
+    post_id = WebHook.get_id_new_post(request.data)
     print(post_id)
     # if post_id:
     #     ftp_links = Parser(post_id).parse_ftp_link
