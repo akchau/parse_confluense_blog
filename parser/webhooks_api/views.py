@@ -12,7 +12,7 @@ from .ftp_client import Comnnection
 def add_new_post(request):
     post_id = WebHook(request.data).get_id_new_post()
     if post_id:
-        ftp_links = Parser(post_id).parse_ftp_link
+        ftp_links = Parser(post_id).parse_ftp_link()
         print(ftp_links)
     #     Comnnection.get_files(ftp_links)
     return Response(status.HTTP_200_OK)
