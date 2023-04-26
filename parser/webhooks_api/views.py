@@ -11,7 +11,8 @@ from .ftp_client import Comnnection
 @api_view(['POST'])
 def add_new_post(request):
     post_id = WebHook.get_id_new_post()
-    if post_id:
-        ftp_links = Parser(post_id).parse_ftp_link
-        Comnnection.get_files(ftp_links)
+    print(post_id)
+    # if post_id:
+    #     ftp_links = Parser(post_id).parse_ftp_link
+    #     Comnnection.get_files(ftp_links)
     return Response(status.HTTP_200_OK)
