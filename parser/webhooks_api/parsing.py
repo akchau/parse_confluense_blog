@@ -57,10 +57,10 @@ class Parser:
 
 def main():
     print('Тестирование модуля парсинга постов:')
-    man_id = input('Укажите id поста вручную')
+    man_id = input('Укажите id поста вручную: ')
     print('Все элементы поста')
     print('------------------------------------')
-    parser = Parser(man_id).parse_body()
+    parser = Parser(man_id)
     body = parser.parse_body()
     print(body)
     print('Ссылка на ftp сервер которая содержится в посте')
