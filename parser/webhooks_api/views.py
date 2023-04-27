@@ -13,6 +13,5 @@ def add_new_post(request):
     post_id = WebHook(request.data).get_id_new_post()
     if post_id:
         ftp_links = Parser(post_id).parse_ftp_link()
-        print(ftp_links)
-    #     Comnnection.get_files(ftp_links)
+        Comnnection(ftp_links).get_files()
     return Response(status.HTTP_200_OK)

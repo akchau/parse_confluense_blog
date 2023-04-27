@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.append(os.path.join(Path(__file__).resolve().parent.parent.parent, ''))
 
-from parser.parser.settings import BASE_DIR
+from parser.settings import BASE_DIR
 
 load_dotenv()
 

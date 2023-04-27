@@ -7,7 +7,7 @@ class Comnnection:
         self.link = link
 
     def get_path(self):
-        ftp_dir = self.link.strip().split(f'ftp://{self.DOMAIN}/')[1][1:]
+        ftp_dir = self.link.strip().split(f'ftp://{self.DOMAIN}/')[1]
         return ftp_dir
 
     def get_connection(self):
@@ -18,5 +18,6 @@ class Comnnection:
     def get_files(self):
         ftp = self.get_connection()
         path = self.get_path()
+        print(path)
         ftp.cwd(path)
         ftp.retrlines('LIST')
