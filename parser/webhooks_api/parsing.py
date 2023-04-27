@@ -1,7 +1,13 @@
 import os
+import sys
 from dotenv import load_dotenv
 import requests
 from html.parser import HTMLParser
+from pathlib import Path
+
+sys.path.append(os.path.join(Path(__file__).resolve().parent.parent.parent, ''))
+
+from parser.parser.settings import BASE_DIR
 
 load_dotenv()
 
@@ -34,6 +40,9 @@ class Parser:
     def __init__(self, id):
         self.id = id
 
+    def check_env(self):
+        return os.path.isfile(os.path.join(BASE_DIR.resolve().parent, '.env'))
+
     def get_data_post(self):
         url = f'http://glazarev.atlassian.net/wiki/api/v2/blogposts/{self.id}?body-format=storage'
         response = requests.request(
@@ -59,15 +68,21 @@ class Parser:
 def main():
     print('Тестирование модуля парсинга постов:')
     man_id = input('Укажите id поста вручную: ')
-    print('Все элементы поста')
-    print('------------------------------------')
     parser = Parser(man_id)
-    body = parser.parse_body()
-    print(body)
-    print('Ссылка на ftp сервер которая содержится в посте')
+    print('Проверка наличия .env-файла с переменными')
     print('------------------------------------')
-    link = parser.parse_ftp_link()
-    print(link)
+    if parser.check_env():
+        print('Файл .env существует')
+        print('Все элементы поста')
+        print('------------------------------------')
+        body = parser.parse_body()
+        print(body)
+        print('Ссылка на ftp сервер которая содержится в посте')
+        print('------------------------------------')
+        link = parser.parse_ftp_link()
+        print(link)
+    else:
+        print('Файл .env НЕ существует')
 
 
 if __name__ == "__main__":
